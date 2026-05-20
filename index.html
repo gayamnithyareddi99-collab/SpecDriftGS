@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpecDriftGS | AI-Powered Compliance Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+:root{
+  /* SpecDriftGS  Sky Blue Theme */
+  --blue:#0ea5e9;
+  --blue-light:#38bdf8;
+  --blue-dim:#0284c7;
+  --blue-dark:#0369a1;
+  --blue-deeper:#0c4a6e;
+
+  --accent:#0ea5e9;
+  --accent-light:#e0f2fe;
+  --accent-dim:#38bdf8;
+
+  /* Nav / Footer BG  Sky Blue */
+  --nav-bg:#0ea5e9;
+  --footer-bg:#0c4a6e;
+
+  /* Page Backgrounds  White */
+  --bg-white:#ffffff;
+  --bg-light:#f0f9ff;
+  --bg-section:#e0f2fe;
+  --bg-card:#ffffff;
+
+  --card-border:rgba(14,165,233,0.18);
+  --card-border-strong:rgba(14,165,233,0.38);
+
+  --text-dark:#0c2340;
+  --text-mid:#1e4060;
+  --text-muted:#4a7a9b;
+  --text-light:#7bafc7;
+  --white:#FFFFFF;
+
+  --nav-h:72px;
+  --max-w:1200px;
+  --font:'Plus Jakarta Sans',sans-serif;
+  --display:'Sora',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+  --ease:cubic-bezier(0.4,0,0.2,1);
+  --ease-out:cubic-bezier(0,0,0.2,1);
+}
+
+body{font-family:var(--font);color:var(--text-dark);background:var(--bg-white);overflow-x:hidden;}
+
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg-light);}
+::-webkit-scrollbar-thumb{background:var(--blue);border-radius:2px;}
+
+img{display:block;max-width:100%;}
+
+/* ─── NAVBAR ─────────────────────────────────────────── */
+.navbar{
+  position:fixed;top:0;left:0;width:100%;height:var(--nav-h);
+  background:var(--nav-bg);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,0.2);
+  z-index:1000;display:flex;align-items:center;
+  padding:0 clamp(16px,5vw,60px);
+  justify-content:space-between;
+  transition:border-color 0.3s;
+  box-shadow:0 2px 24px rgba(14,165,233,0.3);
+}
+.nav-logo{
+  font-family:var(--display);font-size:18px;font-weight:800;
+  color:var(--white);letter-spacing:-0.3px;
+  display:flex;align-items:center;gap:12px;
+  cursor:pointer;text-decoration:none;flex-shrink:0;
+}
+.nav-logo-icon{
+  width:40px;height:40px;
+  background:rgba(255,255,255,0.2);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  box-shadow:0 4px 14px rgba(0,0,0,0.15);
+  border:1px solid rgba(255,255,255,0.3);
+}
+.nav-logo-icon svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.nav-logo-text{display:flex;flex-direction:column;line-height:1;}
+.nav-logo-text span{font-size:10px;font-family:var(--mono);font-weight:500;color:rgba(255,255,255,0.7);letter-spacing:2px;text-transform:uppercase;margin-top:3px;}
+
+.nav-links{display:flex;align-items:center;gap:4px;list-style:none;}
+.nav-links li button{
+  background:none;border:none;
+  color:rgba(255,255,255,0.85);
+  font-size:11px;font-weight:600;
+  padding:8px 14px;border-radius:7px;
+  transition:all 0.22s var(--ease);
+  cursor:pointer;font-family:var(--mono);
+  letter-spacing:0.8px;text-transform:uppercase;
+  position:relative;white-space:nowrap;
+}
+.nav-links li button:hover{color:#fff;background:rgba(255,255,255,0.15);}
+.nav-links li button.active{color:#fff;background:rgba(255,255,255,0.2);}
+.nav-links li button.active::after{
+  content:'';position:absolute;bottom:5px;left:50%;
+  transform:translateX(-50%);width:14px;height:2px;
+  background:var(--white);border-radius:2px;
+}
+
+.nav-right{display:flex;align-items:center;gap:10px;}
+.btn-demo-nav{
+  background:var(--white);
+  color:var(--blue-dark);border:none;padding:9px 20px;border-radius:8px;
+  font-size:11px;font-weight:700;cursor:pointer;
+  transition:all 0.22s;font-family:var(--mono);
+  letter-spacing:0.8px;text-transform:uppercase;white-space:nowrap;
+  box-shadow:0 2px 10px rgba(0,0,0,0.15);
+}
+.btn-demo-nav:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,0.25);background:var(--accent-light);}
+
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;flex-shrink:0;}
+.hamburger span{width:22px;height:2px;background:#fff;border-radius:2px;transition:0.3s;display:block;}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+.mobile-nav{
+  display:none;position:fixed;top:var(--nav-h);left:0;width:100%;
+  background:var(--blue-dark);backdrop-filter:blur(20px);
+  padding:12px 20px 20px;flex-direction:column;gap:2px;
+  z-index:999;border-bottom:1px solid rgba(255,255,255,0.1);
+  animation:slideDown 0.25s var(--ease-out);
+}
+@keyframes slideDown{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+.mobile-nav.open{display:flex;}
+.mobile-nav button{
+  background:none;border:none;color:rgba(255,255,255,0.8);
+  font-size:13px;font-weight:600;padding:13px 12px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  cursor:pointer;font-family:var(--mono);text-align:left;
+  text-transform:uppercase;letter-spacing:1px;
+  transition:color 0.2s,background 0.2s;border-radius:6px;
+}
+.mobile-nav button:hover{color:#fff;background:rgba(255,255,255,0.1);}
+.mobile-nav .mob-cta{
+  margin-top:8px;background:var(--white);
+  color:var(--blue-dark);border:none;padding:13px;
+  border-radius:8px;font-weight:700;font-size:12px;
+  letter-spacing:1px;text-transform:uppercase;cursor:pointer;
+  font-family:var(--mono);
+}
+
+/* ─── PAGE SYSTEM ─────────────────────────────────────── */
+.page{display:none;min-height:100vh;padding-top:var(--nav-h);}
+.page.active{display:block;animation:pgIn 0.35s var(--ease);}
+@keyframes pgIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* ─── SECTION COMMONS ─────────────────────────────────── */
+.label-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:3px;text-transform:uppercase;
+  color:var(--blue-dim);margin-bottom:14px;
+}
+.label-tag::before{content:'';width:20px;height:1px;background:var(--blue);}
+.label-tag-white{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,0.8);margin-bottom:14px;
+}
+.label-tag-white::before{content:'';width:20px;height:1px;background:rgba(255,255,255,0.6);}
+
+.section-h2{
+  font-family:var(--display);font-size:clamp(28px,3.5vw,52px);
+  font-weight:800;line-height:1.1;letter-spacing:-0.8px;
+  margin-bottom:10px;
+}
+.section-h2.blue-txt{color:var(--blue-dark);}
+.section-h2.dark{color:var(--text-dark);}
+.section-h2.white{color:var(--white);}
+
+.section-divider{width:56px;height:3px;margin:16px 0 28px;border-radius:2px;}
+.divider-blue{background:linear-gradient(90deg,var(--blue),transparent);}
+.divider-white{background:linear-gradient(90deg,rgba(255,255,255,0.8),transparent);}
+.divider-center{margin:16px auto 28px;}
+
+.para-dark{color:var(--text-mid);line-height:1.85;font-size:17px;}
+.para-light{color:rgba(255,255,255,0.85);line-height:1.85;font-size:17px;}
+
+.container{max-width:var(--max-w);margin:0 auto;padding:0 clamp(16px,4vw,60px);}
+
+/* ─── BUTTONS ─────────────────────────────────────────── */
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,var(--blue),var(--blue-dark));
+  color:var(--white);padding:13px 28px;border-radius:8px;
+  text-decoration:none;font-weight:700;font-size:12px;
+  letter-spacing:0.8px;text-transform:uppercase;
+  transition:all 0.25s;font-family:var(--mono);border:none;cursor:pointer;
+  box-shadow:0 4px 16px rgba(14,165,233,0.35);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(14,165,233,0.5);}
+
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1.5px solid var(--blue);color:var(--blue-dark);
+  padding:12px 28px;border-radius:8px;text-decoration:none;
+  font-weight:700;font-size:12px;letter-spacing:0.8px;
+  text-transform:uppercase;transition:all 0.25s;
+  font-family:var(--mono);background:none;cursor:pointer;
+}
+.btn-secondary:hover{background:rgba(14,165,233,0.08);border-color:var(--blue-dim);}
+
+.btn-white{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--white);color:var(--blue-dark);
+  padding:12px 28px;border-radius:8px;
+  font-weight:700;font-size:12px;letter-spacing:0.8px;
+  text-transform:uppercase;transition:all 0.25s;
+  font-family:var(--mono);border:none;cursor:pointer;
+  box-shadow:0 4px 16px rgba(0,0,0,0.12);
+}
+.btn-white:hover{transform:translateY(-2px);background:var(--accent-light);box-shadow:0 8px 28px rgba(0,0,0,0.2);}
+
+/* ─── STATUS BADGES ─────────────────────────────── */
+.risk-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:3px 10px;border-radius:20px;
+  font-size:10px;font-weight:700;font-family:var(--mono);letter-spacing:0.5px;
+}
+.risk-blue{background:rgba(14,165,233,0.1);color:var(--blue-dim);border:1px solid rgba(14,165,233,0.28);}
+.risk-light{background:rgba(224,242,254,0.5);color:var(--blue-dark);border:1px solid rgba(14,165,233,0.25);}
+.risk-green{background:rgba(16,185,129,0.1);color:#059669;border:1px solid rgba(16,185,129,0.25);}
+.risk-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0;}
+
+/* ─── HERO ─────────────────────────────────────────────── */
+.hero{
+  background:linear-gradient(140deg,#f0f9ff 0%,#e0f2fe 40%,#bae6fd 100%);
+  padding:clamp(60px,10vw,100px) 0 clamp(50px,8vw,80px);
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-80px;right:-80px;
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(14,165,233,0.12) 0%,transparent 70%);
+}
+.hero-inner{
+  max-width:var(--max-w);margin:0 auto;
+  padding:0 clamp(16px,4vw,60px);
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,80px);
+  align-items:center;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(14,165,233,0.12);border:1px solid rgba(14,165,233,0.3);
+  border-radius:30px;padding:6px 16px;
+  font-family:var(--mono);font-size:10px;font-weight:700;
+  color:var(--blue-dim);letter-spacing:1.5px;text-transform:uppercase;
+  margin-bottom:22px;
+}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+h1{
+  font-family:var(--display);font-size:clamp(34px,5vw,64px);
+  font-weight:800;line-height:1.06;letter-spacing:-1.5px;color:var(--text-dark);
+  margin-bottom:6px;
+}
+h1 .blue{color:var(--blue);}
+h1 .dark-blue{color:var(--blue-dark);}
+.hero-rule{width:48px;height:3px;background:linear-gradient(90deg,var(--blue),var(--blue-light));border-radius:2px;margin:20px 0;}
+.hero-body{font-size:17px;color:var(--text-mid);line-height:1.8;margin-bottom:28px;max-width:540px;}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
+
+.hero-mini-stats{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;}
+.hero-mini-card{
+  background:rgba(255,255,255,0.8);
+  border:1px solid rgba(14,165,233,0.2);
+  border-radius:12px;padding:14px 18px;min-width:140px;
+  backdrop-filter:blur(8px);
+}
+.hero-mini-card strong{
+  display:block;font-family:var(--display);
+  font-size:22px;font-weight:800;color:var(--blue-dark);
+}
+.hero-mini-card span{font-size:11px;color:var(--text-muted);font-family:var(--mono);}
+
+/* DASHBOARD CARD */
+.score-card{
+  background:#fff;border-radius:18px;
+  border:1px solid rgba(14,165,233,0.18);
+  padding:24px;box-shadow:0 8px 40px rgba(14,165,233,0.12);
+}
+.score-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;}
+.score-card-label{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;}
+.dashboard-title{font-family:var(--display);font-size:17px;font-weight:700;color:var(--text-dark);}
+.live-dot-wrap{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:700;color:var(--blue);letter-spacing:1.5px;}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);animation:pulse 1.5s infinite;}
+.score-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(14,165,233,0.08);}
+.score-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;font-weight:700;flex-shrink:0;}
+.score-icon.blue-bg{background:rgba(14,165,233,0.12);color:var(--blue-dim);}
+.score-icon.light-bg{background:rgba(224,242,254,0.4);color:var(--blue-dark);}
+.score-icon.green-bg{background:rgba(16,185,129,0.1);color:#059669;}
+.score-lbl{flex:1;font-size:12px;color:var(--text-muted);}
+.score-val{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text-dark);}
+.score-big{display:flex;align-items:center;gap:16px;margin-top:18px;padding:16px;background:linear-gradient(135deg,rgba(14,165,233,0.08),rgba(186,230,253,0.25));border-radius:12px;border:1px solid rgba(14,165,233,0.15);}
+.score-big-num{font-family:var(--display);font-size:48px;font-weight:800;color:var(--blue);line-height:1;}
+.score-big-info .label{font-size:13px;font-weight:700;color:var(--text-dark);}
+.score-big-info .sub{font-size:11px;color:var(--text-muted);margin-top:3px;font-family:var(--mono);}
+
+/* ─── STATS STRIP ─────────────────────────────────────── */
+.section-blue{
+  background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue-deeper) 100%);
+  padding:clamp(60px,8vw,96px) 0;
+}
+.stats-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:48px;
+}
+.stat-card{
+  background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);
+  border-radius:16px;padding:clamp(20px,3vw,30px);
+  text-align:center;transition:transform 0.25s,border-color 0.25s;
+}
+.stat-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,0.3);}
+.stat-num{font-family:var(--display);font-size:clamp(32px,4vw,48px);font-weight:800;color:#fff;margin-bottom:10px;}
+.stat-lbl{font-size:13px;color:rgba(255,255,255,0.75);line-height:1.6;}
+
+/* ─── PLATFORM SECTION ─────────────────────────────────── */
+.platform-section{background:var(--bg-white);padding:clamp(60px,8vw,96px) 0;}
+.platform-sub{max-width:760px;margin-bottom:44px;color:var(--text-mid);}
+.platform-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+.platform-card{
+  background:#fff;border:1px solid rgba(14,165,233,0.15);
+  border-radius:18px;overflow:hidden;
+  transition:border-color 0.3s,box-shadow 0.3s,transform 0.3s;
+  box-shadow:0 2px 12px rgba(14,165,233,0.06);
+}
+.platform-card:hover{border-color:rgba(14,165,233,0.35);box-shadow:0 12px 40px rgba(14,165,233,0.12);transform:translateY(-3px);}
+.platform-img-wrap{width:100%;height:180px;overflow:hidden;background:linear-gradient(135deg,var(--bg-light),var(--bg-section));display:flex;align-items:center;justify-content:center;font-size:48px;color:var(--blue);}
+.platform-img-wrap img{width:100%;height:100%;object-fit:cover;}
+.platform-card .inner{padding:22px;}
+.element-badge{
+  display:inline-block;background:rgba(14,165,233,0.1);
+  color:var(--blue-dim);border-radius:6px;
+  padding:3px 10px;font-family:var(--mono);font-size:9px;
+  font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  margin-bottom:12px;border:1px solid rgba(14,165,233,0.18);
+}
+.platform-card h3{font-family:var(--display);font-size:17px;font-weight:700;color:var(--text-dark);margin-bottom:10px;line-height:1.3;}
+.platform-card p{font-size:13px;color:var(--text-muted);line-height:1.75;}
+.more-text{display:none;font-size:13px;color:var(--text-muted);line-height:1.75;margin-top:10px;padding-top:10px;border-top:1px solid rgba(14,165,233,0.1);}
+.platform-card.open .more-text{display:block;}
+.expand-btn{
+  margin-top:16px;background:none;border:1px solid rgba(14,165,233,0.28);
+  color:var(--blue-dim);padding:7px 18px;border-radius:7px;
+  font-size:11px;font-weight:700;cursor:pointer;font-family:var(--mono);
+  letter-spacing:0.8px;text-transform:uppercase;transition:all 0.2s;
+}
+.expand-btn:hover{background:rgba(14,165,233,0.08);border-color:var(--blue);}
+
+/* ─── WHY SECTION ─────────────────────────────────────── */
+.why-section{background:var(--bg-light);padding:clamp(60px,8vw,96px) 0;}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:44px;}
+.why-card{
+  background:#fff;border:1px solid rgba(14,165,233,0.15);
+  border-radius:16px;padding:clamp(20px,3vw,30px);
+  transition:border-color 0.25s,box-shadow 0.25s;
+}
+.why-card:hover{border-color:rgba(14,165,233,0.35);box-shadow:0 8px 28px rgba(14,165,233,0.1);}
+.why-icon{
+  width:48px;height:48px;border-radius:12px;
+  background:linear-gradient(135deg,rgba(14,165,233,0.12),rgba(186,230,253,0.2));
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:16px;font-size:20px;color:var(--blue);
+  border:1px solid rgba(14,165,233,0.18);
+}
+.why-card h4{font-family:var(--display);font-size:16px;font-weight:700;color:var(--text-dark);margin-bottom:10px;}
+.why-card p{font-size:13px;color:var(--text-muted);line-height:1.75;}
+
+/* ─── SECTION LIGHT / ALT ─────────────────────────────── */
+.section-light{background:var(--bg-white);padding:clamp(60px,8vw,96px) 0;}
+.section-alt{background:var(--bg-light);padding:clamp(60px,8vw,96px) 0;}
+
+/* ─── MARKET CHARTS ─────────────────────────────────────── */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:44px;}
+.chart-card{
+  background:#fff;border:1px solid rgba(14,165,233,0.15);
+  border-radius:18px;padding:24px;
+  box-shadow:0 4px 16px rgba(14,165,233,0.06);
+}
+.chart-card h4{font-family:var(--display);font-size:15px;font-weight:700;color:var(--text-dark);margin-bottom:4px;}
+.chart-card p{font-size:12px;color:var(--text-muted);margin-bottom:20px;font-family:var(--mono);}
+.chart-wrap{height:260px;position:relative;}
+
+/* ─── ABOUT PAGE ─────────────────────────────────────────── */
+.about-hero{
+  background:linear-gradient(140deg,#e0f2fe 0%,#bae6fd 60%,#7dd3fc 100%);
+  padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,80px);
+  position:relative;overflow:hidden;
+}
+.about-hero::after{
+  content:'';position:absolute;bottom:-60px;left:-60px;
+  width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(14,165,233,0.15) 0%,transparent 70%);
+}
+.about-hero .container{position:relative;z-index:1;}
+.founders-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:44px;}
+.founder-card{
+  background:#fff;border:1px solid rgba(14,165,233,0.15);
+  border-radius:18px;padding:clamp(20px,3vw,36px);
+  box-shadow:0 4px 20px rgba(14,165,233,0.08);
+}
+.founder-img{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--blue-dark));display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:24px;font-weight:800;color:#fff;margin-bottom:16px;}
+.founder-card h3{font-family:var(--display);font-size:20px;font-weight:700;color:var(--text-dark);margin-bottom:4px;}
+.founder-card .role{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--blue-dim);margin-bottom:14px;}
+.founder-card p{font-size:13px;color:var(--text-muted);line-height:1.8;}
+.founder-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
+.f-badge{background:rgba(14,165,233,0.08);border:1px solid rgba(14,165,233,0.18);border-radius:20px;padding:4px 12px;font-family:var(--mono);font-size:10px;color:var(--blue-dim);letter-spacing:0.5px;}
+
+/* ─── FAQ ─────────────────────────────────────────────── */
+.faq-wrap{display:flex;flex-direction:column;gap:12px;margin-top:32px;}
+.faq-item{background:#fff;border:1px solid rgba(14,165,233,0.15);border-radius:14px;overflow:hidden;}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;cursor:pointer;gap:16px;}
+.faq-q h4{font-family:var(--display);font-size:15px;font-weight:600;color:var(--text-dark);}
+.faq-icon{font-size:20px;font-weight:300;color:var(--blue);flex-shrink:0;transition:transform 0.3s;}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+.faq-body{display:none;padding:0 22px 18px;font-size:14px;color:var(--text-muted);line-height:1.8;border-top:1px solid rgba(14,165,233,0.08);}
+.faq-item.open .faq-body{display:block;}
+
+/* ─── PRICING ─────────────────────────────────────────── */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:44px;}
+.price-card{
+  background:#fff;border:1px solid rgba(14,165,233,0.15);
+  border-radius:18px;padding:clamp(22px,3vw,36px);
+  position:relative;transition:border-color 0.25s,box-shadow 0.25s,transform 0.25s;
+  box-shadow:0 4px 16px rgba(14,165,233,0.06);
+}
+.price-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(14,165,233,0.14);}
+.price-card.featured{
+  border:2px solid var(--blue);
+  box-shadow:0 8px 40px rgba(14,165,233,0.18);
+  transform:scale(1.03);
+}
+.price-card.featured:hover{transform:scale(1.03) translateY(-4px);}
+.featured-label{
+  position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+  background:linear-gradient(135deg,var(--blue),var(--blue-dark));
+  color:#fff;padding:4px 18px;border-radius:20px;
+  font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  white-space:nowrap;
+}
+.price-tier{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--blue-dim);margin-bottom:8px;}
+.price-title{font-family:var(--display);font-size:20px;font-weight:700;color:var(--text-dark);margin-bottom:12px;}
+.price-amount{font-family:var(--display);font-size:clamp(34px,4vw,48px);font-weight:800;color:var(--blue-dark);line-height:1;}
+.price-amount span{font-size:16px;font-weight:500;color:var(--text-muted);}
+.price-desc{font-size:13px;color:var(--text-muted);margin:12px 0 20px;line-height:1.6;}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px;}
+.price-features li{font-size:13px;color:var(--text-mid);display:flex;align-items:flex-start;gap:8px;}
+.price-features li::before{content:'✓';color:var(--blue);font-weight:700;flex-shrink:0;margin-top:1px;}
+
+/* ─── PROCESS ─────────────────────────────────────────── */
+.process-step{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(30px,5vw,72px);align-items:center;
+  margin-bottom:clamp(56px,8vw,96px);
+}
+.process-step:last-child{margin-bottom:0;}
+.step-num{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--blue-dim);margin-bottom:12px;}
+.step-h3{font-family:var(--display);font-size:clamp(22px,2.5vw,32px);font-weight:800;color:var(--text-dark);margin-bottom:16px;line-height:1.2;}
+.step-p{color:var(--text-muted);font-size:15px;line-height:1.8;margin-bottom:18px;}
+.step-img{
+  width:100%;aspect-ratio:16/10;border-radius:16px;
+  border:1px solid rgba(14,165,233,0.15);overflow:hidden;
+  box-shadow:0 8px 32px rgba(14,165,233,0.1);
+  background:linear-gradient(135deg,var(--bg-light),var(--bg-section));
+  display:flex;align-items:center;justify-content:center;
+  font-size:64px;color:var(--blue);
+}
+
+/* ─── CONTACT ─────────────────────────────────────────── */
+.contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
+.contact-form{background:#fff;border:1px solid rgba(14,165,233,0.15);border-radius:18px;padding:clamp(24px,3vw,40px);box-shadow:0 4px 20px rgba(14,165,233,0.08);}
+.contact-form h3{font-family:var(--display);font-size:22px;font-weight:700;color:var(--text-dark);margin-bottom:24px;}
+.form-group{margin-bottom:18px;}
+.form-group label{display:block;font-size:13px;font-weight:600;color:var(--text-mid);margin-bottom:6px;}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;padding:12px 16px;border:1.5px solid rgba(14,165,233,0.18);
+  border-radius:10px;font-size:14px;font-family:var(--font);
+  color:var(--text-dark);background:#fff;
+  transition:border-color 0.2s,box-shadow 0.2s;outline:none;
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(14,165,233,0.1);}
+.form-group textarea{min-height:120px;resize:vertical;}
+.contact-info{display:flex;flex-direction:column;gap:0;}
+.contact-info h3{font-family:var(--display);font-size:22px;font-weight:700;color:var(--text-dark);margin-bottom:16px;}
+.contact-info p{font-size:15px;color:var(--text-muted);line-height:1.7;margin-bottom:28px;}
+.contact-detail{display:flex;align-items:flex-start;gap:16px;padding:16px 0;border-bottom:1px solid rgba(14,165,233,0.1);}
+.contact-detail .icon{width:44px;height:44px;background:rgba(14,165,233,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--blue);flex-shrink:0;font-size:18px;}
+.contact-detail .text strong{display:block;font-size:13px;font-weight:700;color:var(--text-dark);margin-bottom:2px;}
+.contact-detail .text span{font-size:13px;color:var(--text-muted);}
+
+/* ─── FOOTER ─────────────────────────────────────────── */
+footer{background:var(--footer-bg);padding:clamp(48px,6vw,80px) 0 0;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px;}
+.footer-brand{font-family:var(--display);font-size:22px;font-weight:800;color:#fff;margin-bottom:14px;}
+.footer-desc{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.8;margin-bottom:20px;}
+.footer-badges{display:flex;flex-wrap:wrap;gap:8px;}
+.footer-badge{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:4px 12px;font-family:var(--mono);font-size:10px;color:rgba(255,255,255,0.8);letter-spacing:0.5px;}
+.footer-col-title{font-family:var(--mono);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:16px;}
+.footer-col{display:flex;flex-direction:column;gap:10px;}
+.footer-col a{font-size:13px;color:rgba(255,255,255,0.65);cursor:pointer;transition:color 0.2s;}
+.footer-col a:hover{color:#fff;}
+.footer-bottom-bar{border-top:1px solid rgba(255,255,255,0.1);padding:20px 0;display:flex;align-items:center;justify-content:space-between;}
+.footer-bottom-bar p{font-size:12px;color:rgba(255,255,255,0.45);font-family:var(--mono);}
+.footer-bottom-bar p span{color:rgba(255,255,255,0.7);}
+.footer-bottom-links{display:flex;gap:20px;}
+.footer-bottom-links a{font-size:12px;color:rgba(255,255,255,0.5);cursor:pointer;font-family:var(--mono);transition:color 0.2s;}
+.footer-bottom-links a:hover{color:rgba(255,255,255,0.85);}
+
+/* ─── COMPARISON TABLE ───────────────────────── */
+.comp-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:40px;border-radius:16px;border:1px solid rgba(14,165,233,0.15);box-shadow:0 4px 16px rgba(14,165,233,0.06);}
+.comp-table{width:100%;border-collapse:collapse;background:#fff;}
+.comp-table th{background:linear-gradient(135deg,var(--blue-dark),var(--blue-deeper));color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:16px 18px;text-align:left;}
+.comp-table th:first-child{border-radius:16px 0 0 0;}
+.comp-table th:last-child{border-radius:0 16px 0 0;}
+.comp-table td{padding:14px 18px;font-size:13px;color:var(--text-mid);border-bottom:1px solid rgba(14,165,233,0.08);}
+.comp-table tr:last-child td{border-bottom:none;}
+.comp-table tr:hover td{background:rgba(14,165,233,0.03);}
+.comp-table td:first-child{font-weight:600;color:var(--text-dark);}
+.comp-table .yes{color:#059669;font-weight:700;}
+.comp-table .no{color:#94a3b8;font-weight:500;}
+.comp-table .highlight-col{background:rgba(14,165,233,0.06);}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media(max-width:900px){
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  .btn-demo-nav{display:none;}
+  .hero-inner{grid-template-columns:1fr;gap:40px;}
+  .hero-inner > div:last-child{display:none;}
+  .hero .hero-mini-stats{display:none;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .platform-grid{grid-template-columns:1fr;}
+  .why-grid{grid-template-columns:1fr 1fr;}
+  .pricing-grid{grid-template-columns:1fr;}
+  .price-card.featured{transform:scale(1);}
+  .process-step{grid-template-columns:1fr;gap:28px;}
+  .contact-wrap{grid-template-columns:1fr;}
+  .charts-grid{grid-template-columns:1fr;}
+  .founders-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .footer-bottom-bar{flex-direction:column;align-items:flex-start;gap:10px;}
+  .footer-bottom-links{flex-wrap:wrap;gap:12px;}
+  .section-light [style*="grid-template-columns:1fr 1fr"],
+  .section-alt [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr !important;}
+  [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr !important;}
+}
+@media(max-width:600px){
+  .stats-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr;}
+  .why-grid{grid-template-columns:1fr;}
+  .hero-mini-stats{flex-direction:column;}
+  .hero-mini-card{min-width:unset;width:100%;}
+  .btn-primary,.btn-secondary,.btn-white{width:100%;justify-content:center;}
+  .footer-bottom-links{flex-direction:column;gap:8px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a class="nav-logo" onclick="showPage('home')">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><path d="M9 12l2 2 4-4"/></svg>
+    </div>
+    <div class="nav-logo-text">
+      SpecDriftGS
+      <span>Compliance Intelligence</span>
+    </div>
+  </a>
+
+  <ul class="nav-links">
+    <li><button id="nav-home" class="active" onclick="showPage('home')">Home</button></li>
+    <li><button id="nav-about" onclick="showPage('about')">About</button></li>
+    <li><button id="nav-platform" onclick="showPage('platform')">Platform</button></li>
+    <li><button id="nav-market" onclick="showPage('market')">Market</button></li>
+    <li><button id="nav-process" onclick="showPage('process')">Process</button></li>
+    <li><button id="nav-faq" onclick="showPage('faq')">FAQ</button></li>
+    <li><button id="nav-pricing" onclick="showPage('pricing')">Pricing</button></li>
+    <li><button id="nav-contact" onclick="showPage('contact')">Contact</button></li>
+  </ul>
+
+  <div class="nav-right">
+    <button class="btn-demo-nav" onclick="showPage('contact')">Request Demo</button>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobileNav">
+  <button onclick="showPage('home');closeMobile()">Home</button>
+  <button onclick="showPage('about');closeMobile()">About</button>
+  <button onclick="showPage('platform');closeMobile()">Platform</button>
+  <button onclick="showPage('market');closeMobile()">Market</button>
+  <button onclick="showPage('process');closeMobile()">Process</button>
+  <button onclick="showPage('faq');closeMobile()">FAQ</button>
+  <button onclick="showPage('pricing');closeMobile()">Pricing</button>
+  <button onclick="showPage('contact');closeMobile()">Contact</button>
+  <button class="mob-cta" onclick="showPage('contact');closeMobile()">Request Demo →</button>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE : HOME
+═══════════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          UK's First AI-Native Spec Drift Intelligence Platform
+        </div>
+        <h1>
+          Detect Change.<br>
+          <span class="blue">Prevent</span> Risk.
+          <span class="dark-blue">Stay Compliant.</span>
+        </h1>
+        <div class="hero-rule"></div>
+        <p class="hero-body">
+          SpecDriftGS is an AI-native compliance intelligence platform for regulated product businesses. We continuously monitor supplier specifications, allergen statements, and certificates  detecting when upstream changes create downstream compliance risk before it reaches your labels, customers, or auditors.
+        </p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="showPage('contact')">Book a Platform Demo</button>
+          <button class="btn-secondary" onclick="showPage('platform')">Explore Platform</button>
+        </div>
+      </div>
+      <!-- DASHBOARD CARD -->
+      <div>
+        <div class="score-card">
+          <div class="score-card-top">
+            <div>
+              <div class="score-card-label">SpecDriftGS · Live Compliance Engine</div>
+              <h3 class="dashboard-title">Compliance Intelligence Dashboard</h3>
+            </div>
+            <div class="live-dot-wrap"><span class="live-dot"></span>LIVE</div>
+          </div>
+          <div class="score-row">
+            <div class="score-icon blue-bg">DC</div>
+            <span class="score-lbl">Drift Events Detected This Month</span>
+            <span class="score-val">47 Alerts ↑22%</span>
+          </div>
+          <div class="score-row">
+            <div class="score-icon green-bg">AR</div>
+            <span class="score-lbl">Allergen Risk Items Caught</span>
+            <span class="score-val">12 Critical ↑Saved</span>
+          </div>
+          <div class="score-row">
+            <div class="score-icon light-bg">CS</div>
+            <span class="score-lbl">Certificate Scope Changes</span>
+            <span class="score-val">8 Reviewed ✓</span>
+          </div>
+          <div class="score-row">
+            <div class="score-icon blue-bg">AT</div>
+            <span class="score-lbl">Audit Trail Completeness</span>
+            <span class="score-val">100% Traced ↑</span>
+          </div>
+          <div class="score-big">
+            <div class="score-big-num">98<span style="font-size:24px;">%</span></div>
+            <div class="score-big-info">
+              <div class="label">Compliance Accuracy Rate</div>
+              <div class="sub">AI Governed · Explainable · Audit-Ready</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS STRIP -->
+  <section class="section-blue">
+    <div class="container">
+      <div class="label-tag-white">The UK Compliance Crisis</div>
+      <h2 class="section-h2 white">UK Food Businesses Are Losing Millions to<br>Silent Specification Drift.</h2>
+      <div class="section-divider divider-white"></div>
+      <p class="para-light" style="max-width:760px;">
+        With approximately 24,880 SMEs in UK food and drink manufacturing and £148 billion in sector turnover, the compliance burden is enormous. Supplier documents change constantly, yet most businesses rely on manual review  missing critical allergen updates, certificate scope changes, and packaging declaration drift until it's too late.
+      </p>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-num">98.8%</div>
+          <div class="stat-lbl">Of UK food & drink businesses are SMEs  most lacking automated compliance monitoring for supplier document changes</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">48%</div>
+          <div class="stat-lbl">Of food & beverage suppliers still use manual spreadsheets for document tracking  creating hidden allergen and labelling risk</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">69%</div>
+          <div class="stat-lbl">Of food & drink brands still rely on manual processes like email and spreadsheets for external document exchanges</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">£148B</div>
+          <div class="stat-lbl">UK food & drink sector turnover  all exposed to supplier specification drift risk if compliance intelligence is absent</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATFORM PREVIEW -->
+  <section class="platform-section">
+    <div class="container">
+      <div class="label-tag">Core Intelligence Modules</div>
+      <h2 class="section-h2 dark">Six Modules. One Complete Compliance Intelligence Platform.</h2>
+      <div class="section-divider divider-blue"></div>
+      <p class="para-dark platform-sub">
+        SpecDriftGS combines multi-channel document ingestion, structured extraction, semantic drift detection, blast-radius mapping, risk scoring, and workflow automation  all in one unified AI-native SaaS platform.
+      </p>
+      <div class="platform-grid">
+        <!-- CARD 1 -->
+        <div class="platform-card">
+          <div class="platform-img-wrap"><img src="spec1.jpg"></div>
+          <div class="inner">
+            <div class="element-badge">Module 01</div>
+            <h3>Multi-Channel Document Ingestion</h3>
+            <p>Receive supplier evidence through email forwarding, manual upload, supplier portal, or API connectors  wherever documents arrive.</p>
+            <div class="more-text">
+              The ingestion layer captures supplier revisions, allergen statements, change notices, and certificates through all channels your team already uses. Email forwarding routes inbox attachments automatically. The supplier portal gives external parties a controlled upload environment. API connectors enable future integration with upstream systems  ensuring no critical update gets trapped in an email chain.
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+        <!-- CARD 2 -->
+        <div class="platform-card">
+          <div class="platform-img-wrap"><img src="spec2.jpg"></div>
+          <div class="inner">
+            <div class="element-badge">Module 02</div>
+            <h3>Semantic Drift Detection Engine</h3>
+            <p>Goes beyond version tracking  determines whether a change is materially meaningful from a compliance perspective.</p>
+            <div class="more-text">
+              When a supplier changes "rice flour" to "wheat flour," most systems see edited text. SpecDriftGS sees a new declarable allergen. When a certificate is renewed with narrower scope, we identify a potential loss of approval support. This domain-aware interpretation is the core innovation  AI extraction combined with structured normalisation and explainable compliance reasoning.
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+        <!-- CARD 3 -->
+        <div class="platform-card">
+          <div class="platform-img-wrap"><img src="spec3.jpg"></div>
+          <div class="inner">
+            <div class="element-badge">Module 03</div>
+            <h3>Blast-Radius Graph Mapping</h3>
+            <p>Maps every downstream consequence of an upstream change  from raw materials to finished SKUs, labels, claims, and customer documents.</p>
+            <div class="more-text">
+              The blast-radius model is SpecDriftGS's most powerful differentiator. Rather than stopping at "something changed," the platform links one upstream change to its full network of dependent records. Which SKUs are affected? Which labels need review? Which customer submissions are now at risk? The platform answers all four critical questions: what changed, why it matters, what else is exposed, and who needs to act.
+            </div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY SECTION -->
+  <section class="why-section">
+    <div class="container">
+      <div class="label-tag">Why SpecDriftGS</div>
+      <h2 class="section-h2 dark">Built for Regulated Industries.<br>Not Just a Document Manager with an AI Badge.</h2>
+      <div class="section-divider divider-blue"></div>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-search"></i></div>
+          <h4>Semantic Change Detection</h4>
+          <p>Determines whether a supplier-side change is materially meaningful  not just that a file changed. Domain-aware interpretation that understands allergens, certificates, and regulatory significance.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-sitemap"></i></div>
+          <h4>Downstream Impact Mapping</h4>
+          <p>The blast-radius model links one upstream change to all dependent records across raw materials, finished SKUs, labels, claims, customer documents, sites, and markets.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-shield-alt"></i></div>
+          <h4>Explainable AI Compliance</h4>
+          <p>In regulated settings, black-box alerts are not enough. SpecDriftGS provides full explainability  what evidence triggered the alert, what logic applied, and what action should follow.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-clipboard-check"></i></div>
+          <h4>Audit-Ready Evidence Trail</h4>
+          <p>Every decision is supported by evidence and traceability. Review, escalation, and closure are all recorded  giving you structured audit-ready documentation at any time.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-users-cog"></i></div>
+          <h4>SME-Optimised for Lean Teams</h4>
+          <p>Smaller technical, QA, and regulatory teams can manage far more complexity without becoming overstretched or dependent on a single expert who carries all the knowledge.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-plug"></i></div>
+          <h4>Integrates With Existing Systems</h4>
+          <p>Sits alongside existing ERP, QMS, or specification platforms. Multi-channel ingestion means no need to redesign existing document flows from day one.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end page home -->
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE : ABOUT
+═══════════════════════════════════════════════ -->
+<div class="page" id="page-about">
+  <section class="about-hero">
+    <div class="container">
+      <div class="label-tag">About Us</div>
+      <h2 class="section-h2 dark">Built by a Compliance Expert Who Lived the Problem.<br><span style="color:var(--blue-dark);">Designed for the AI-Native Era.</span></h2>
+      <div class="section-divider divider-blue"></div>
+      <p class="para-dark" style="max-width:680px;margin-bottom:40px;">SpecDriftGS is a UK-based AI-native SaaS venture addressing one of the most persistent operational gaps in regulated industries: the silent compliance failures caused when supplier documentation changes but downstream records do not. Founded with a deep understanding of food safety, quality systems, and regulatory compliance, we are solving a problem that existing document management and specification tools consistently leave unresolved.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('contact')">Get in Touch</button>
+        <button class="btn-secondary" onclick="showPage('platform')">Explore Platform</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vision & Mission -->
+  <section class="section-light">
+    <div class="container">
+      <div class="label-tag">Vision & Mission</div>
+      <h2 class="section-h2 dark">To Become the Leading Compliance Intelligence Platform<br>for Regulated Product Supply Chains.</h2>
+      <div class="section-divider divider-blue"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:32px;">
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-eye"></i></div>
+          <h4>Our Vision</h4>
+          <p>To define a new category of compliance technology  not simply storing documents or managing approvals, but continuously interpreting upstream change and translating it into downstream business action. To become the trusted intelligence layer between supplier documentation, internal product records, regulatory obligations, and market-facing claims.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-bullseye"></i></div>
+          <h4>Our Mission</h4>
+          <p>To prevent silent compliance failures by transforming fragmented supplier document changes into real-time, explainable risk intelligence and structured corrective action  enabling businesses to move from reactive compliance management to proactive compliance control.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Values -->
+  <section class="section-alt">
+    <div class="container">
+      <div class="label-tag">Core Values</div>
+      <h2 class="section-h2 dark">What Drives Everything We Build</h2>
+      <div class="section-divider divider-blue"></div>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-lightbulb"></i></div>
+          <h4>Innovation</h4>
+          <p>Building a domain ontology for regulated supplier evidence that goes beyond simple version comparison to semantic change interpretation  a genuinely new category of compliance intelligence.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-crosshairs"></i></div>
+          <h4>Accuracy</h4>
+          <p>A commitment to high-fidelity change detection and the elimination of the "drift intelligence gap"  ensuring no compliance-critical supplier update is missed, misunderstood, or acted on too late.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-lock"></i></div>
+          <h4>Explainability</h4>
+          <p>AI that shows its reasoning. In regulated settings, decisions must be supported by traceable evidence  not just an alert. Every SpecDriftGS finding comes with full evidence and logic.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-tachometer-alt"></i></div>
+          <h4>Scalability</h4>
+          <p>Starting with UK food and drink manufacturers, then expanding into supplements, cosmetics, medical nutrition, and beyond  a repeatable intelligence model for any regulated product supply chain.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-handshake"></i></div>
+          <h4>Partnership</h4>
+          <p>Working alongside auditors, technical consultants, and industry bodies to build trust in a new category of compliance intelligence  not competing with existing tools but augmenting them.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-shield-alt"></i></div>
+          <h4>Integrity</h4>
+          <p>Full UK GDPR compliance, responsible AI governance, human-in-the-loop design, and transparent data practices  because our customers operate in environments where trust is everything.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Founder -->
+  <section class="section-light">
+    <div class="container">
+      <div class="label-tag">Our Team</div>
+      <h2 class="section-h2 dark">Founder-Led, Expert-Built</h2>
+      <div class="section-divider divider-blue"></div>
+      <div class="founders-grid">
+        <div class="founder-card">
+          <div class="founder-img">ST</div>
+          <h3>Shweta Thapliyal</h3>
+          <div class="role">Founder & CEO · SpecDriftGS</div>
+          <p>A highly motivated and results-driven professional with a proven track record in sales, marketing, and project management. MSc in Business Management from the University of Stirling, and B.Tech in Biotechnology  bringing a unique combination of scientific understanding and commercial expertise to the compliance intelligence space. With experience at Abbott India, Wilson's Seasonings, and Healthcare Access Solutions, Shweta understands the operational reality of regulated industries and the gap that SpecDriftGS is built to solve.</p>
+          <div class="founder-badges">
+            <span class="f-badge">MSc Business Management</span>
+            <span class="f-badge">B.Tech Biotechnology</span>
+            <span class="f-badge">HubSpot Certified</span>
+            <span class="f-badge">VETASSESS Specialist</span>
+            <span class="f-badge">Jira PM Certified</span>
+          </div>
+        </div>
+        <div class="founder-card">
+          <div class="founder-img" style="background:linear-gradient(135deg,#0284c7,#0c4a6e);">AG</div>
+          <h3>Advisory Group</h3>
+          <div class="role">Food Safety · Regulatory · Technology</div>
+          <p>SpecDriftGS is supported by advisors with deep expertise in UK food safety compliance, regulatory labelling, supply chain quality management, and AI-native software development. Our advisory network includes food technical consultants, BRCGS and FSSC auditors, and technology architects with regulated-industry experience  ensuring the platform reflects real operational needs, not theoretical frameworks.</p>
+          <div class="founder-badges">
+            <span class="f-badge">BRCGS Expertise</span>
+            <span class="f-badge">FSSC 22000</span>
+            <span class="f-badge">Food Safety Law</span>
+            <span class="f-badge">AI Architecture</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- end page about -->
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE : PLATFORM
+═══════════════════════════════════════════════ -->
+<div class="page" id="page-platform">
+  <section style="background:linear-gradient(140deg,#f0f9ff 0%,#e0f2fe 50%,#bae6fd 100%);padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,80px);">
+    <div class="container">
+      <div class="label-tag">The Platform</div>
+      <h2 class="section-h2 dark">Six Features. One End-to-End<br><span style="color:var(--blue-dark);">Compliance Intelligence Workflow.</span></h2>
+      <div class="section-divider divider-blue"></div>
+      <p class="para-dark" style="max-width:680px;margin-bottom:40px;">SpecDriftGS is not a document repository with AI added on top. It is an end-to-end compliance intelligence workflow built specifically to detect when supplier-side changes create downstream compliance risk  and to convert that detection into structured, auditable action.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('contact')">Request a Demo →</button>
+        <button class="btn-secondary" onclick="showPage('pricing')">View Pricing</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-light">
+    <div class="container">
+      <div class="label-tag">Full Feature Set</div>
+      <h2 class="section-h2 dark">Every Feature Built Around One Question:<br>What Changed, and Does It Matter?</h2>
+      <div class="section-divider divider-blue"></div>
+      <div class="platform-grid" style="grid-template-columns:repeat(2,1fr);">
+        <div class="platform-card">
+          <div class="platform-img-wrap" style="height:140px;"><img src="spec4.jpg"></div>
+          <div class="inner">
+            <div class="element-badge">Feature 01</div>
+            <h3>Multi-Channel Document Ingestion</h3>
+            <p>Email forwarding, manual upload, supplier portal, and API connectors. Captures supplier evidence through every channel your team already uses  ensuring no update gets missed.</p>
+          </div>
+        </div>
+        <div class="platform-card">
+          <div class="platform-img-wrap" style="height:140px;"><img src="spec5.jpg"></div>
+          <div class="inner">
+            <div class="element-badge">Feature 02</div>
+            <h3>Structured Extraction Engine</h3>
+            <p>Converts semi-structured or unstructured supplier PDFs into normalised compliance data  allergen fields, certificate attributes, claim statements, and packaging declarations all structured for analysis.</p>
+          </div>
+        </div>
+        <div class="platform-card">
+          <div class="platform-img-wrap" style="height:140px;"><img src="spec6.jpg"></div>
+          <div class="inner">
+            <div class="element-badge">Feature 03</div>
+            <h3>Semantic Drift Detection</h3>
+            <p>Determines whether a change is materially meaningful from a compliance perspective. Not just version comparison  domain-aware interpretation that understands allergens, certifications, and regulatory significance.</p>
+          </div>
+        </div>
+        <div class="platform-card">
+          <div class="platform-img-wrap" style="height:140px;"><img src="spec7.jpg"></div>
+          <div class="inner">
+            <div class="element-badge">Feature 04</div>
+            <h3>Blast-Radius Graph</h3>
+            <p>Maps one upstream change to all affected downstream records  finished SKUs, labels, customer documents, sites, and markets. Answers: what changed, why it matters, what is exposed, who must act.</p>
+          </div>
+        </div>
+        <div class="platform-card">
+          <div class="platform-img-wrap" style="height:140px;"><img src="spec8.jpg"></div>
+          <div class="inner">
+            <div class="element-badge">Feature 05</div>
+            <h3>Risk Scoring & Prioritisation</h3>
+            <p>Automatically prioritises findings by compliance severity  allergen alerts flagged as critical, certificate scope changes as high, packaging drift as moderate  so teams act in the right order.</p>
+          </div>
+        </div>
+        <div class="platform-card">
+          <div class="platform-img-wrap" style="height:140px;"><img src="spec9.jpg"></div>
+          <div class="inner">
+            <div class="element-badge">Feature 06</div>
+            <h3>Workflow Automation & Audit Trail</h3>
+            <p>Structured corrective action workflows with full audit trail and decision traceability. Every review, escalation, and closure is evidence-linked  audit-ready at any time, for any inspector.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Competitive Comparison -->
+  <section class="section-alt">
+    <div class="container">
+      <div class="label-tag">Competitive Position</div>
+      <h2 class="section-h2 dark">SpecDriftGS vs Existing Solutions</h2>
+      <div class="section-divider divider-blue"></div>
+      <div class="comp-table-wrap">
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th>Capability</th>
+              <th>Document Storage</th>
+              <th>Generic PLM</th>
+              <th>QMS Workflow</th>
+              <th>Spec Platforms</th>
+              <th>SpecDriftGS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Semantic change detection</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="yes highlight-col">✓ Domain-aware AI</td></tr>
+            <tr><td>Blast-radius impact mapping</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="yes highlight-col">✓ Proprietary Graph</td></tr>
+            <tr><td>Allergen drift detection</td><td class="no">No</td><td class="no">Limited</td><td class="no">No</td><td class="no">Manual only</td><td class="yes highlight-col">✓ Automated AI</td></tr>
+            <tr><td>Certificate scope comparison</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="yes highlight-col">✓ Structured diff</td></tr>
+            <tr><td>Explainable risk reasoning</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="yes highlight-col">✓ Full evidence trail</td></tr>
+            <tr><td>Audit-linked decision history</td><td class="no">Limited</td><td class="no">Limited</td><td class="no">Yes</td><td class="no">Limited</td><td class="yes highlight-col">✓ End-to-end</td></tr>
+            <tr><td>SME-accessible pricing</td><td class="no">Varies</td><td class="no">High cost</td><td class="no">High cost</td><td class="no">Moderate</td><td class="yes highlight-col">✓ From £300/mo</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</div><!-- end page platform -->
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE : MARKET
+═══════════════════════════════════════════════ -->
+<div class="page" id="page-market">
+  <section style="background:linear-gradient(140deg,#f0f9ff 0%,#e0f2fe 50%,#bae6fd 100%);padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,80px);">
+    <div class="container">
+      <div class="label-tag">Market Analysis</div>
+      <h2 class="section-h2 dark">A £148 Billion Sector With a Critical Compliance Gap.<br><span style="color:var(--blue-dark);">SpecDriftGS Is the Solution.</span></h2>
+      <div class="section-divider divider-blue"></div>
+      <p class="para-dark" style="max-width:680px;margin-bottom:40px;">The UK food and drink manufacturing sector employs approximately 24,880 SMEs (98.8% of businesses) with £37 billion GVA and £148 billion turnover. These businesses face real, ongoing compliance obligations around allergen information and labelling  but most lack the automation capacity to manage supplier-driven specification drift systematically.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('contact')">Request Demo →</button>
+        <button class="btn-secondary" onclick="showPage('pricing')">View Pricing</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-light">
+    <div class="container">
+      <div class="label-tag">Market Data & Intelligence</div>
+      <h2 class="section-h2 dark">The Numbers Behind the Opportunity</h2>
+      <div class="section-divider divider-blue"></div>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h4>UK Food & Drink SME Market by Segment</h4>
+          <p>Target addressable market across UK regulated product categories</p>
+          <div class="chart-wrap"><canvas id="chartSector"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h4>Primary Compliance Pain Points in UK Food Businesses</h4>
+          <p>Key challenges driving adoption of SpecDriftGS</p>
+          <div class="chart-wrap"><canvas id="chartRootCause"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h4>SpecDriftGS vs Competitors  Capability Radar</h4>
+          <p>Platform capabilities vs existing compliance tools</p>
+          <div class="chart-wrap"><canvas id="chartRadar"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h4>Global AI Compliance Platform Market Growth 2022–2030</h4>
+          <p>Global market growth (USD B) + UK AI adoption trajectory (%)</p>
+          <div class="chart-wrap"><canvas id="chartGrowth"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Revenue Projections -->
+  <section class="section-blue">
+    <div class="container">
+      <div class="label-tag-white">Financial Projections</div>
+      <h2 class="section-h2 white">3-Year Revenue Trajectory</h2>
+      <div class="section-divider divider-white"></div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-num">Y1 Pilot</div>
+          <div class="stat-lbl">£300/mo pilot pricing · proving willingness to pay · first 10–15 UK food manufacturers · validate product-market fit</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">Y1 Start</div>
+          <div class="stat-lbl">£450/mo starter · £650/mo growth · building first paying customer base across UK food & drink manufacturing SMEs</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">Y2 Scale</div>
+          <div class="stat-lbl">£550–£1,250/mo · full UK launch · POS/ERP integrations · supplements and nutraceuticals expansion begins</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">Y3+</div>
+          <div class="stat-lbl">Cosmetics, medical nutrition, pharma-adjacent quality environments · geographic expansion · full multi-sector platform</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- end page market -->
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE: PROCESS
+═══════════════════════════════════════════════ -->
+<div class="page" id="page-process">
+  <section style="background:linear-gradient(140deg,#f0f9ff 0%,#e0f2fe 50%,#bae6fd 100%);padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,80px);">
+    <div class="container">
+      <div class="label-tag">How It Works</div>
+      <h2 class="section-h2 dark">From Fragmented Supplier Updates<br>to <span style="color:var(--blue-dark);">Structured Compliance Intelligence</span></h2>
+      <div class="section-divider divider-blue"></div>
+      <p class="para-dark" style="max-width:680px;margin-bottom:40px;">SpecDriftGS operates as a closed-loop compliance intelligence lifecycle: detect change → interpret meaning → map impact → trigger action → preserve evidence. Every step is designed to convert incoming supplier documents into controlled, auditable compliance decisions  not just filed records.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('contact')">Request a Demo →</button>
+        <button class="btn-secondary" onclick="showPage('platform')">Explore Modules</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-light" style="padding-top:clamp(60px,8vw,96px);">
+    <div class="container">
+      <div class="label-tag">The 6-Phase Compliance Intelligence Lifecycle</div>
+      <h2 class="section-h2 dark">A Complete Operational Loop  Not Just a Dashboard</h2>
+      <div class="section-divider divider-blue"></div>
+
+      <!-- Phase 1 -->
+      <div class="process-step">
+        <div>
+          <div class="step-num">Phase 01 · Ingest</div>
+          <h3 class="step-h3">Capture Every Supplier Document Update</h3>
+          <p class="step-p">SpecDriftGS ingests supplier evidence through all channels  email forwarding, manual upload, supplier portal, and API connectors. Specifications, allergen statements, certificates, packaging declarations, and change notices are all captured automatically.</p>
+          <p class="step-p">No supplier update gets trapped in an email inbox or a local file folder. The platform creates a structured record of every incoming document from the moment of receipt.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;">
+            <span class="risk-badge risk-blue"><span class="risk-dot"></span>Email Forwarding</span>
+            <span class="risk-badge risk-light"><span class="risk-dot"></span>Supplier Portal</span>
+            <span class="risk-badge risk-green"><span class="risk-dot"></span>API Connectors</span>
+          </div>
+        </div>
+        <div class="step-img"><img src="spec10.jpg"></div>
+      </div>
+
+      <!-- Phase 2 -->
+      <div class="process-step">
+        <div class="step-img"><img src="spec11.jpg"></div>
+        <div>
+          <div class="step-num">Phase 02 · Extract</div>
+          <h3 class="step-h3">Convert Documents Into Structured Compliance Data</h3>
+          <p class="step-p">Once received, the platform converts unstructured supplier PDFs into normalised compliance data. Allergen fields, certificate scope attributes, claim statements, ingredient lists, and packaging declarations are all structured for downstream analysis.</p>
+          <p class="step-p">This extraction layer is critical  downstream drift detection depends entirely on the accuracy and consistency of how supplier evidence is interpreted and recorded.</p>
+        </div>
+      </div>
+
+      <!-- Phase 3 -->
+      <div class="process-step">
+        <div>
+          <div class="step-num">Phase 03 · Detect</div>
+          <h3 class="step-h3">Identify Meaningful Change  Not Just File Versions</h3>
+          <p class="step-p">Semantic drift detection compares structured data from new and previous documents to determine whether a change is materially meaningful. "Rice flour" changed to "wheat flour" is not just edited text  it is a new declarable allergen. A renewed certificate with narrower scope is not just a new file  it may invalidate an existing approval.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;">
+            <span class="risk-badge risk-blue"><span class="risk-dot"></span>Allergen Changes</span>
+            <span class="risk-badge risk-light"><span class="risk-dot"></span>Certificate Scope Drift</span>
+            <span class="risk-badge risk-green"><span class="risk-dot"></span>Packaging Declaration</span>
+          </div>
+        </div>
+        <div class="step-img"><img src="spec12.jpg"></div>
+      </div>
+
+      <!-- Phase 4 -->
+      <div class="process-step">
+        <div class="step-img"><img src="spec13.jpg"></div>
+        <div>
+          <div class="step-num">Phase 04 · Map</div>
+          <h3 class="step-h3">Blast-Radius: Who and What Is Affected?</h3>
+          <p class="step-p">The blast-radius graph maps every downstream consequence of one upstream change. Which finished SKUs rely on this ingredient? Which labels carry this claim? Which customer submissions reference this certificate? Which markets are at risk?</p>
+          <p class="step-p">The platform answers all four critical questions: what changed, why it matters, what else is now exposed, and who needs to act.</p>
+        </div>
+      </div>
+
+      <!-- Phase 5 -->
+      <div class="process-step">
+        <div>
+          <div class="step-num">Phase 05 · Act</div>
+          <h3 class="step-h3">Structured Corrective Action Workflows</h3>
+          <p class="step-p">Risk-prioritised findings are routed into structured corrective action workflows. Critical allergen alerts are escalated immediately. Certificate scope issues are held for technical review. Lower-severity packaging drift is queued for scheduled review.</p>
+          <p class="step-p">Every action is logged, time-stamped, and linked to the source evidence  ensuring traceability throughout the remediation process.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;">
+            <span class="risk-badge risk-blue"><span class="risk-dot"></span>Auto-Escalation</span>
+            <span class="risk-badge risk-light"><span class="risk-dot"></span>Structured Review</span>
+            <span class="risk-badge risk-green"><span class="risk-dot"></span>Workflow Closure</span>
+          </div>
+        </div>
+        <div class="step-img"><img src="spec14.jpg"></div>
+      </div>
+
+      <!-- Phase 6 -->
+      <div class="process-step">
+        <div class="step-img"><img src="spec15.jpg"></div>
+        <div>
+          <div class="step-num">Phase 06 · Evidence</div>
+          <h3 class="step-h3">Audit-Ready Evidence at Every Step</h3>
+          <p class="step-p">Every decision is supported by evidence, traceability, and a clear record of review, escalation, and closure. Compliance managers can generate audit-ready documentation at any time  showing exactly what was detected, when, by what logic, and what action was taken.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;">
+            <span class="risk-badge risk-blue"><span class="risk-dot"></span>Decision Traceability</span>
+            <span class="risk-badge risk-light"><span class="risk-dot"></span>Evidence Linking</span>
+            <span class="risk-badge risk-green"><span class="risk-dot"></span>Audit Export</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div><!-- end page process -->
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE : FAQ
+═══════════════════════════════════════════════ -->
+<div class="page" id="page-faq">
+  <section style="background:linear-gradient(140deg,#f0f9ff 0%,#e0f2fe 60%,#bae6fd 100%);padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,80px);">
+    <div class="container">
+      <div class="label-tag">FAQ</div>
+      <h2 class="section-h2 dark">Frequently Asked Questions</h2>
+      <div class="section-divider divider-blue"></div>
+      <p class="para-dark" style="max-width:600px;">Everything you need to know about SpecDriftGS and what it means for your compliance operations in the AI-native era.</p>
+    </div>
+  </section>
+
+  <section class="section-light">
+    <div class="container" style="max-width:840px;">
+      <div class="faq-wrap">
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)"><h4>What is SpecDriftGS and why does my food business need it?</h4><span class="faq-icon">+</span></div>
+          <div class="faq-body">SpecDriftGS is an AI-native compliance intelligence platform designed to prevent silent compliance failures in regulated product businesses. It continuously monitors supplier specifications, allergen statements, and certificates  detecting when upstream document changes create downstream risk for your labels, allergen declarations, product claims, and release decisions. Unlike generic document management, it determines whether a change is materially meaningful, maps the affected records, and triggers a structured corrective action workflow with full audit traceability.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)"><h4>How is this different from our existing specification management or QMS system?</h4><span class="faq-icon">+</span></div>
+          <div class="faq-body">Existing systems typically store documents, manage approvals, or route quality workflows. They can tell you that a file changed  but they cannot determine whether that change affects an allergen declaration, invalidates a product claim, narrows a certification scope, or creates a release risk. SpecDriftGS is specifically designed to answer those questions through semantic drift detection, domain-aware AI interpretation, and blast-radius impact mapping. It sits alongside your existing systems as a specialised intelligence layer, not a replacement.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)"><h4>What types of documents does SpecDriftGS monitor?</h4><span class="faq-icon">+</span></div>
+          <div class="faq-body">The platform monitors supplier specifications, allergen statements, certificates of conformance, packaging declarations, change notices, and any other supplier-side documentation that could affect your downstream compliance records. It is designed to handle the fragmented, semi-structured documents that regulated food businesses actually receive in practice  not just clean, standardised data feeds.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)"><h4>What is "blast-radius mapping" and why does it matter?</h4><span class="faq-icon">+</span></div>
+          <div class="faq-body">Blast-radius mapping is SpecDriftGS's most distinctive capability. Rather than simply flagging that a supplier document changed, the platform maps all downstream records that depend on that document  finished SKUs, labels, customer specifications, claims, approval statuses, and release decisions. This means your team immediately knows not just that something changed, but exactly what is now at risk and who needs to act. Most adjacent systems operate inside a single process boundary and cannot infer these cross-record consequences.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)"><h4>Is SpecDriftGS compliant with UK food safety and data regulations?</h4><span class="faq-icon">+</span></div>
+          <div class="faq-body">Yes. SpecDriftGS is designed to comply with UK GDPR and ICO guidance on AI and data protection. The platform supports compliance with the Food Standards Agency's allergen guidance and the UK's food labelling regulations. All AI reasoning is designed to be explainable and human-in-the-loop  the platform supports your compliance decisions, it does not make autonomous regulatory determinations on your behalf.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)"><h4>Which sectors does SpecDriftGS serve?</h4><span class="faq-icon">+</span></div>
+          <div class="faq-body">Initially, SpecDriftGS is focused on UK food and drink manufacturers  particularly SMEs with real compliance obligations but limited internal automation capacity. The platform is then planned to expand into importers of prepacked foods, supplements and nutraceuticals, cosmetics and personal care, medical nutrition products, and selected pharma-adjacent quality environments where supplier documentation, specification drift, and traceability are commercially critical.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)"><h4>How do I get started with SpecDriftGS?</h4><span class="faq-icon">+</span></div>
+          <div class="faq-body">Getting started is straightforward. We begin with a scoping session to understand your supplier document flows, compliance obligations, and existing systems. The platform connects to your incoming document channels through email forwarding or API integration, and we configure the blast-radius model around your product records. Most customers are running live compliance monitoring within days, not months. Book a demo to discuss your specific situation.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- end page faq -->
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE : PRICING
+═══════════════════════════════════════════════ -->
+<div class="page" id="page-pricing">
+  <section style="background:linear-gradient(140deg,#f0f9ff 0%,#e0f2fe 60%,#bae6fd 100%);padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,80px);">
+    <div class="container" style="text-align:center;">
+      <div class="label-tag" style="justify-content:center;">Pricing</div>
+      <h2 class="section-h2 dark">Simple, Transparent Plans<br>Built for Regulated Businesses</h2>
+      <div class="section-divider divider-blue divider-center"></div>
+      <p class="para-dark" style="max-width:580px;margin:0 auto;">From early-stage food manufacturers to scaling regulated product businesses  SpecDriftGS has a plan that fits your compliance intelligence needs. Entry-level pricing designed to keep barriers low while proving value.</p>
+    </div>
+  </section>
+
+  <section class="section-light">
+    <div class="container">
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-tier">Year 1 · Pilot</div>
+          <div class="price-title">Pilot Plan</div>
+          <div class="price-amount">£300<span>/mo</span></div>
+          <p class="price-desc">For early-stage food businesses wanting to prove the value of automated drift detection before committing to a full deployment.</p>
+          <ul class="price-features">
+            <li>Core document ingestion (email + manual upload)</li>
+            <li>Structured extraction for up to 50 supplier documents</li>
+            <li>Basic semantic drift detection</li>
+            <li>Allergen change flagging</li>
+            <li>Simple blast-radius summary</li>
+            <li>Email alerts and notifications</li>
+            <li>Onboarding support included</li>
+          </ul>
+          <button class="btn-secondary" onclick="showPage('contact')">Start Pilot</button>
+        </div>
+        <div class="price-card featured">
+          <div class="featured-label">Most Popular</div>
+          <div class="price-tier">Year 1 · Starter</div>
+          <div class="price-title">Starter Plan</div>
+          <div class="price-amount">£450<span>/mo</span></div>
+          <p class="price-desc">For food and drink SMEs with ongoing supplier change activity needing structured compliance monitoring and workflow automation.</p>
+          <ul class="price-features">
+            <li>All Pilot features</li>
+            <li>Full blast-radius graph mapping</li>
+            <li>Structured corrective action workflows</li>
+            <li>Certificate scope comparison</li>
+            <li>Packaging declaration drift detection</li>
+            <li>Risk scoring and prioritisation</li>
+            <li>Audit trail and decision traceability</li>
+            <li>Priority support</li>
+          </ul>
+          <button class="btn-primary" onclick="showPage('contact')">Get Started</button>
+        </div>
+        <div class="price-card">
+          <div class="price-tier">Year 1 · Growth</div>
+          <div class="price-title">Growth Plan</div>
+          <div class="price-amount">£650<span>/mo</span></div>
+          <p class="price-desc">For multi-SKU manufacturers or businesses with complex supplier networks requiring deeper integration and advanced workflow capabilities.</p>
+          <ul class="price-features">
+            <li>All Starter features</li>
+            <li>Supplier portal for external submissions</li>
+            <li>API connector access</li>
+            <li>Multi-site compliance monitoring</li>
+            <li>Advanced risk prioritisation engine</li>
+            <li>Customer submission impact tracking</li>
+            <li>Export-ready audit documentation</li>
+            <li>Dedicated onboarding specialist</li>
+          </ul>
+          <button class="btn-secondary" onclick="showPage('contact')">Contact Us</button>
+        </div>
+      </div>
+
+      <!-- Add-ons -->
+      <div style="margin-top:56px;">
+        <div class="label-tag">Year 2 Pricing (Coming Soon)</div>
+        <h2 class="section-h2 dark" style="font-size:clamp(22px,2.5vw,34px);">Next-Stage Plans as the Platform Matures</h2>
+        <div class="section-divider divider-blue"></div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:32px;">
+          <div class="why-card">
+            <div class="why-icon"><i class="fas fa-seedling"></i></div>
+            <h4>Starter Y2  £550/mo</h4>
+            <p>Stronger product capability, more live use cases, and broader workflow adoption reflecting Year 2 platform maturity.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-icon"><i class="fas fa-chart-line"></i></div>
+            <h4>Growth Y2  £950/mo</h4>
+            <p>Expanded integration options, deeper blast-radius intelligence, and improved multi-supplier tracking for growing businesses.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-icon"><i class="fas fa-building"></i></div>
+            <h4>Professional Y2  £1,250/mo</h4>
+            <p>Full multi-sector capability, API ecosystem access, and dedicated compliance success management for complex regulated environments.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div><!-- end page pricing -->
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE : CONTACT
+═══════════════════════════════════════════════ -->
+<div class="page" id="page-contact">
+  <section style="background:linear-gradient(140deg,#f0f9ff 0%,#e0f2fe 60%,#bae6fd 100%);padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,80px);">
+    <div class="container">
+      <div class="label-tag">Contact Us</div>
+      <h2 class="section-h2 dark">Book a Demo or Get in Touch</h2>
+      <div class="section-divider divider-blue"></div>
+      <p class="para-dark" style="max-width:600px;">Whether you want to explore how SpecDriftGS fits your compliance operations, ask a technical question, or request a pilot  we would love to hear from you.</p>
+    </div>
+  </section>
+
+  <section class="section-light">
+    <div class="container">
+      <div class="contact-wrap">
+        <!-- FORM -->
+        <div class="contact-form">
+          <h3>Request a Demo</h3>
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" placeholder="Your name" />
+          </div>
+          <div class="form-group">
+            <label>Company</label>
+            <input type="text" placeholder="Your company" />
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="your@email.com" />
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" placeholder="+44 ..." />
+          </div>
+          <div class="form-group">
+            <label>Business Type</label>
+            <select>
+              <option>UK Food & Drink Manufacturer (SME)</option>
+              <option>Importer of Prepacked Foods</option>
+              <option>Supplements / Nutraceuticals</option>
+              <option>Cosmetics / Personal Care</option>
+              <option>Medical Nutrition</option>
+              <option>Quality / Technical Consultant</option>
+              <option>Other Regulated Sector</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>What are you most interested in?</label>
+            <textarea placeholder="Tell us about your compliance challenges, supplier document volumes, and what features you'd like to explore..."></textarea>
+          </div>
+          <button class="btn-primary" style="width:100%;justify-content:center;" onclick="alert('Thank you! We will be in touch within 24 hours.')">
+            Request Demo →
+          </button>
+        </div>
+
+        <!-- CONTACT INFO -->
+        <div class="contact-info">
+          <h3>Why Book a Demo?</h3>
+          <p>Our personalised demos show how SpecDriftGS would work with your specific supplier document flows, product records, and compliance obligations  not a generic walkthrough. We demonstrate how semantic drift detection, blast-radius mapping, and the corrective action workflow combine to catch the compliance failures that manual review consistently misses.</p>
+          <div class="contact-detail">
+            <div class="icon"><i class="fas fa-globe"></i></div>
+            <div class="text">
+              <strong>Website</strong>
+              <span>specdriftgs.co.uk</span>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="icon"><i class="fas fa-envelope"></i></div>
+            <div class="text">
+              <strong>Email Us</strong>
+              <span>shwetathapliyal1@gmail.com</span>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="icon"><i class="fas fa-phone"></i></div>
+            <div class="text">
+              <strong>Phone</strong>
+              <span>+44 7721994265 · Shweta Thapliyal</span>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="text">
+              <strong>UK Headquarters</strong>
+              <span>London, United Kingdom</span>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="icon"><i class="fas fa-clock"></i></div>
+            <div class="text">
+              <strong>Response Time</strong>
+              <span>Within 24 hours · Mon–Fri 9am–6pm GMT</span>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="icon"><i class="fas fa-shield-alt"></i></div>
+            <div class="text">
+              <strong>Data Privacy</strong>
+              <span>UK GDPR Compliant · ICO Registered</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- end page contact -->
+
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">SpecDriftGS</div>
+        <p class="footer-desc">The UK's first AI-native spec drift compliance intelligence platform  detecting when supplier documents change in ways that create downstream compliance risk for labels, allergen declarations, product claims, and release decisions. Detect Change. Prevent Risk. Stay Compliant.</p>
+        <div class="footer-badges">
+          <span class="footer-badge">UK GDPR Compliant</span>
+          <span class="footer-badge">ICO Registered</span>
+          <span class="footer-badge">FSA Aligned</span>
+          <span class="footer-badge">BRCGS Compatible</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Platform</div>
+        <div class="footer-col">
+          <a onclick="showPage('platform')">Multi-Channel Ingestion</a>
+          <a onclick="showPage('platform')">Structured Extraction</a>
+          <a onclick="showPage('platform')">Semantic Drift Detection</a>
+          <a onclick="showPage('platform')">Blast-Radius Graph</a>
+          <a onclick="showPage('platform')">Risk Scoring Engine</a>
+          <a onclick="showPage('platform')">Audit Trail & Traceability</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <div class="footer-col">
+          <a onclick="showPage('about')">About SpecDriftGS</a>
+          <a onclick="showPage('about')">Shweta Thapliyal · Founder & CEO</a>
+          <a onclick="showPage('process')">How It Works</a>
+          <a onclick="showPage('faq')">FAQ</a>
+          <a onclick="showPage('market')">Market Analysis</a>
+          <a onclick="showPage('pricing')">Pricing & Plans</a>
+          <a onclick="showPage('contact')">Request a Demo</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Solutions</div>
+        <div class="footer-col">
+          <a onclick="showPage('platform')">UK Food & Drink Manufacturers</a>
+          <a onclick="showPage('platform')">Importers of Prepacked Foods</a>
+          <a onclick="showPage('platform')">Supplements & Nutraceuticals</a>
+          <a onclick="showPage('platform')">Cosmetics & Personal Care</a>
+          <a onclick="showPage('pricing')">Pilot  £300/mo</a>
+          <a onclick="showPage('pricing')">Starter  £450/mo</a>
+          <a onclick="showPage('pricing')">Growth  £650/mo</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom-bar">
+      <p>© 2026 <span>SpecDriftGS</span> · London, UK · UK GDPR Compliant · by Shweta Thapliyal · <a href="http://specdriftgs.co.uk" style="color:rgba(255,255,255,0.6)">specdriftgs.co.uk</a></p>
+      <div class="footer-bottom-links">
+        <a onclick="showPage('contact')">Privacy Policy</a>
+        <a onclick="showPage('contact')">Terms of Service</a>
+        <a onclick="showPage('contact')">Contact Us</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ═══════════ JAVASCRIPT ═══════════ -->
+<script>
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-links button').forEach(b=>b.classList.remove('active'));
+  const pg=document.getElementById('page-'+name);
+  if(pg){pg.classList.add('active');}
+  const btn=document.getElementById('nav-'+name);
+  if(btn){btn.classList.add('active');}
+  window.scrollTo({top:0,behavior:'instant'});
+  if(name==='market'&&!window.marketChartsLoaded){initMarketCharts();window.marketChartsLoaded=true;}
+}
+
+function toggleCard(btn){
+  const card=btn.closest('.platform-card');
+  card.classList.toggle('open');
+  btn.innerHTML=card.classList.contains('open')?'Show Less':'Learn More';
+}
+
+function toggleFAQ(el){el.parentElement.classList.toggle('open');}
+
+function closeMobile(){
+  document.getElementById('mobileNav').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+}
+
+document.getElementById('hamburger').addEventListener('click',function(){
+  this.classList.toggle('open');
+  document.getElementById('mobileNav').classList.toggle('open');
+});
+
+/* ─── CHART THEME ────────────────────────────── */
+const BLU='rgba(14,165,233,1)';
+const BLU2='rgba(14,165,233,0.7)';
+const BLU3='rgba(14,165,233,0.35)';
+const LBLU='rgba(56,189,248,0.8)';
+const LBLU2='rgba(186,230,253,0.7)';
+const GRID='rgba(14,165,233,0.08)';
+const MUTED='rgba(30,64,96,0.8)';
+
+Chart.defaults.font.family="'IBM Plex Mono', monospace";
+Chart.defaults.font.size=11;
+Chart.defaults.color=MUTED;
+
+function initMarketCharts(){
+  new Chart(document.getElementById('chartSector').getContext('2d'),{
+    type:'bar',
+    data:{
+      labels:['Food Manufacturers','Drink Manufacturers','Importers','Supplements/Nutra'],
+      datasets:[{
+        label:'SME Businesses (Est.)',
+        data:[12500,5800,3200,3380],
+        backgroundColor:[BLU,BLU2,BLU3,LBLU],
+        borderRadius:6,barPercentage:0.6
+      }]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:MUTED}},y:{grid:{color:GRID},ticks:{color:MUTED,callback:v=>v.toLocaleString()}}}}
+  });
+
+  new Chart(document.getElementById('chartRootCause').getContext('2d'),{
+    type:'doughnut',
+    data:{
+      labels:['Manual spreadsheet use (48%)','Missed allergen changes (61%)','Fragmented email review (69%)','No audit trail (55%)','Slow change control (72%)'],
+      datasets:[{
+        data:[48,61,69,55,72],
+        backgroundColor:[BLU,BLU2,BLU3,LBLU,LBLU2],
+        borderColor:['rgba(14,165,233,0.9)','rgba(14,165,233,0.7)','rgba(14,165,233,0.4)','rgba(56,189,248,0.8)','rgba(186,230,253,0.8)'],
+        borderWidth:1.5
+      }]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:MUTED,boxWidth:10,padding:10,font:{size:10}}}}}
+  });
+
+  new Chart(document.getElementById('chartRadar').getContext('2d'),{
+    type:'radar',
+    data:{
+      labels:['Semantic Drift Detection','Blast-Radius Mapping','Allergen Intelligence','Explainable AI','Audit Traceability','SME-Accessible'],
+      datasets:[
+        {label:'SpecDriftGS',data:[5,5,5,5,5,5],backgroundColor:'rgba(14,165,233,0.1)',borderColor:BLU,borderWidth:2,pointBackgroundColor:BLU},
+        {label:'Generic PLM',data:[1,1,2,1,2,2],backgroundColor:'rgba(56,189,248,0.06)',borderColor:LBLU,borderWidth:1.5,pointBackgroundColor:LBLU},
+        {label:'QMS Workflow',data:[1,1,1,1,3,2],backgroundColor:'rgba(56,189,248,0.05)',borderColor:'rgba(56,189,248,0.5)',borderWidth:1.5,pointBackgroundColor:'rgba(56,189,248,0.5)'},
+        {label:'Spec Platforms',data:[2,1,2,1,2,3],backgroundColor:'rgba(30,64,96,0.05)',borderColor:'rgba(30,64,96,0.4)',borderWidth:1.5,pointBackgroundColor:'rgba(30,64,96,0.4)'},
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:MUTED,boxWidth:10,padding:14,font:{size:10}}}},scales:{r:{backgroundColor:'rgba(14,165,233,0.01)',grid:{color:GRID},pointLabels:{color:MUTED,font:{size:10}},ticks:{display:false},min:0,max:5}}}
+  });
+
+  new Chart(document.getElementById('chartGrowth').getContext('2d'),{
+    type:'bar',
+    data:{
+      labels:['2022','2023','2024','2025','2026','2027','2028','2030'],
+      datasets:[
+        {label:'Global AI Compliance Platform Market (USD B)',data:[3,5,8,12,18,28,40,70],backgroundColor:BLU2,borderRadius:5,barPercentage:0.55},
+        {type:'line',label:'UK Regulated Industry AI Adoption %',data:[null,3,6,11,20,32,46,65],borderColor:LBLU,borderWidth:2,yAxisID:'y2',tension:0.4,pointBackgroundColor:LBLU,fill:false}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:MUTED,boxWidth:10,padding:12,font:{size:10}}}},scales:{x:{grid:{color:GRID},ticks:{color:MUTED}},y:{grid:{color:GRID},ticks:{color:MUTED,callback:v=>'$'+v+'B'}},y2:{position:'right',grid:{display:false},ticks:{color:MUTED,callback:v=>v+'%'}}}}
+  });
+}
+</script>
+</body>
+</html>
