@@ -537,36 +537,128 @@ footer{background:var(--footer-bg);padding:clamp(48px,6vw,80px) 0 0;}
 
 /* ─── RESPONSIVE ─────────────────────────────────────────── */
 @media(max-width:900px){
+  /* NAV */
   .nav-links{display:none;}
   .hamburger{display:flex;}
   .btn-demo-nav{display:none;}
-  .hero-inner{grid-template-columns:1fr;gap:40px;}
-  .hero-inner > div:last-child{display:none;}
-  .hero .hero-mini-stats{display:none;}
-  .stats-grid{grid-template-columns:1fr 1fr;}
-  .platform-grid{grid-template-columns:1fr;}
-  .why-grid{grid-template-columns:1fr 1fr;}
-  .pricing-grid{grid-template-columns:1fr;}
+
+  /* HERO — single column, show dashboard card below text */
+  .hero-inner{
+    grid-template-columns:1fr;
+    gap:36px;
+  }
+  .hero-inner > div:last-child{
+    display:block; /* show dashboard card */
+  }
+  .score-card{
+    max-width:100%;
+  }
+  /* Show mini stats but wrap them */
+  .hero .hero-mini-stats{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .hero-mini-card{
+    flex:1 1 140px;
+    min-width:130px;
+  }
+
+  /* STATS STRIP */
+  .stats-grid{grid-template-columns:1fr 1fr;gap:16px;}
+
+  /* PLATFORM CARDS — home preview and platform page full grid */
+  .platform-grid{grid-template-columns:1fr !important;}
+  #page-platform .platform-grid{grid-template-columns:1fr !important;}
+  .platform-img-wrap{height:160px !important;}
+  /* comparison table scrolls horizontally */
+  .comp-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .comp-table{min-width:580px;}
+  /* platform page hero buttons stack */
+  #page-platform .hero-btns{flex-direction:column;gap:10px;}
+  #page-platform .btn-primary,
+  #page-platform .btn-secondary{width:100%;justify-content:center;}
+
+  /* WHY GRID */
+  .why-grid{grid-template-columns:1fr 1fr;gap:16px;}
+
+  /* PRICING */
+  .pricing-grid{grid-template-columns:1fr;max-width:480px;margin-left:auto;margin-right:auto;}
   .price-card.featured{transform:scale(1);}
-  .process-step{grid-template-columns:1fr;gap:28px;}
+
+  /* PROCESS */
+  .process-step{grid-template-columns:1fr;gap:24px;}
+  /* alternate layout: image always first on mobile */
+  .process-step > div:first-child{order:2;}
+  .process-step > div:last-child{order:1;}
+
+  /* CONTACT */
   .contact-wrap{grid-template-columns:1fr;}
+
+  /* CHARTS */
   .charts-grid{grid-template-columns:1fr;}
+
+  /* ABOUT — founders & vision grids */
   .founders-grid{grid-template-columns:1fr;}
-  .footer-grid{grid-template-columns:1fr 1fr;}
+  .section-light [style*="grid-template-columns:1fr 1fr"],
+  .section-alt  [style*="grid-template-columns:1fr 1fr"]{
+    grid-template-columns:1fr !important;
+  }
+  [style*="grid-template-columns:repeat(3,1fr)"]{
+    grid-template-columns:1fr !important;
+  }
+
+  /* FOOTER */
+  .footer-grid{grid-template-columns:1fr 1fr;gap:28px;}
   .footer-bottom-bar{flex-direction:column;align-items:flex-start;gap:10px;}
   .footer-bottom-links{flex-wrap:wrap;gap:12px;}
-  .section-light [style*="grid-template-columns:1fr 1fr"],
-  .section-alt [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr !important;}
-  [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr !important;}
+
+  /* TYPOGRAPHY tweaks */
+  h1{font-size:clamp(28px,7vw,48px);}
+  .section-h2{font-size:clamp(22px,5vw,38px);}
+  .para-dark,.para-light{font-size:15px;}
+  .hero-body{font-size:15px;}
+
+  /* SECTION PADDING */
+  .section-light,.section-alt,.platform-section,.why-section,
+  .section-blue,.about-hero{
+    padding:clamp(44px,7vw,72px) 0;
+  }
 }
+
 @media(max-width:600px){
+  /* STATS — single column */
   .stats-grid{grid-template-columns:1fr;}
-  .footer-grid{grid-template-columns:1fr;}
+
+  /* WHY — single column */
   .why-grid{grid-template-columns:1fr;}
+
+  /* HERO mini stats */
   .hero-mini-stats{flex-direction:column;}
   .hero-mini-card{min-width:unset;width:100%;}
-  .btn-primary,.btn-secondary,.btn-white{width:100%;justify-content:center;}
+
+  /* BUTTONS full width */
+  .btn-primary,.btn-secondary,.btn-white{
+    width:100%;justify-content:center;
+  }
+  .hero-btns{flex-direction:column;gap:10px;}
+
+  /* FOOTER */
+  .footer-grid{grid-template-columns:1fr;}
   .footer-bottom-links{flex-direction:column;gap:8px;}
+
+  /* PRICING */
+  .pricing-grid{max-width:100%;}
+
+  /* SCORE CARD rows */
+  .score-big-num{font-size:38px;}
+
+  /* CONTACT details */
+  .contact-detail{flex-direction:column;gap:10px;}
+  .contact-detail .icon{width:38px;height:38px;font-size:15px;}
+
+  /* PROCESS */
+  .step-h3{font-size:20px;}
 }
 </style>
 </head>
@@ -1379,110 +1471,249 @@ footer{background:var(--footer-bg);padding:clamp(48px,6vw,80px) 0 0;}
      PAGE : CONTACT
 ═══════════════════════════════════════════════ -->
 <div class="page" id="page-contact">
+
+  <!-- HERO -->
   <section style="background:linear-gradient(140deg,#f0f9ff 0%,#e0f2fe 60%,#bae6fd 100%);padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,80px);">
     <div class="container">
       <div class="label-tag">Contact Us</div>
-      <h2 class="section-h2 dark">Book a Demo or Get in Touch</h2>
+
+      <h2 class="section-h2 dark">
+        Book a Demo or Get in Touch
+      </h2>
+
       <div class="section-divider divider-blue"></div>
-      <p class="para-dark" style="max-width:600px;">Whether you want to explore how SpecDriftGS fits your compliance operations, ask a technical question, or request a pilot  we would love to hear from you.</p>
+
+      <p class="para-dark" style="max-width:650px;">
+        Whether you want to explore how SpecDriftGS fits your compliance operations,
+        ask a technical question, or request a pilot we would love to hear from you.
+      </p>
     </div>
   </section>
 
+  <!-- CONTACT SECTION -->
   <section class="section-light">
     <div class="container">
+
       <div class="contact-wrap">
+
         <!-- FORM -->
         <div class="contact-form">
+
           <h3>Request a Demo</h3>
-          <div class="form-group">
-            <label>Full Name</label>
-            <input type="text" placeholder="Your name" />
-          </div>
-          <div class="form-group">
-            <label>Company</label>
-            <input type="text" placeholder="Your company" />
-          </div>
-          <div class="form-group">
-            <label>Email Address</label>
-            <input type="email" placeholder="your@email.com" />
-          </div>
-          <div class="form-group">
-            <label>Phone Number</label>
-            <input type="tel" placeholder="+44 ..." />
-          </div>
-          <div class="form-group">
-            <label>Business Type</label>
-            <select>
-              <option>UK Food & Drink Manufacturer (SME)</option>
-              <option>Importer of Prepacked Foods</option>
-              <option>Supplements / Nutraceuticals</option>
-              <option>Cosmetics / Personal Care</option>
-              <option>Medical Nutrition</option>
-              <option>Quality / Technical Consultant</option>
-              <option>Other Regulated Sector</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>What are you most interested in?</label>
-            <textarea placeholder="Tell us about your compliance challenges, supplier document volumes, and what features you'd like to explore..."></textarea>
-          </div>
-          <button class="btn-primary" style="width:100%;justify-content:center;" onclick="alert('Thank you! We will be in touch within 24 hours.')">
-            Request Demo →
-          </button>
+
+          <form action="https://api.web3forms.com/submit" method="POST">
+
+            <!-- WEB3FORMS ACCESS KEY -->
+            <input type="hidden" 
+                   name="access_key" 
+                   value="4743ba6d-d57a-4f6a-aa86-e9f5dfc64301">
+
+            <!-- OPTIONAL SUBJECT -->
+            <input type="hidden" 
+                   name="subject" 
+                   value="New SpecDriftGS Demo Request">
+
+            <!-- OPTIONAL REDIRECT -->
+            <!--
+            <input type="hidden" 
+                   name="redirect" 
+                   value="https://yourwebsite.com/thank-you.html">
+            -->
+
+            <div class="form-group">
+              <label>Full Name</label>
+              <input 
+                type="text"
+                name="name"
+                placeholder="Your name"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Company</label>
+              <input 
+                type="text"
+                name="company"
+                placeholder="Your company"
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Email Address</label>
+              <input 
+                type="email"
+                name="email"
+                placeholder="your@email.com"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input 
+                type="tel"
+                name="phone"
+                placeholder="+44 ..."
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Business Type</label>
+
+              <select name="business_type">
+
+                <option>
+                  UK Food & Drink Manufacturer (SME)
+                </option>
+
+                <option>
+                  Importer of Prepacked Foods
+                </option>
+
+                <option>
+                  Supplements / Nutraceuticals
+                </option>
+
+                <option>
+                  Cosmetics / Personal Care
+                </option>
+
+                <option>
+                  Medical Nutrition
+                </option>
+
+                <option>
+                  Quality / Technical Consultant
+                </option>
+
+                <option>
+                  Other Regulated Sector
+                </option>
+
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>
+                What are you most interested in?
+              </label>
+
+              <textarea
+                name="message"
+                placeholder="Tell us about your compliance challenges, supplier document volumes, and what features you'd like to explore..."
+                required
+              ></textarea>
+            </div>
+
+            <button 
+              type="submit"
+              class="btn-primary"
+              style="width:100%;justify-content:center;"
+            >
+              Request Demo →
+            </button>
+
+          </form>
+
         </div>
 
         <!-- CONTACT INFO -->
         <div class="contact-info">
+
           <h3>Why Book a Demo?</h3>
-          <p>Our personalised demos show how SpecDriftGS would work with your specific supplier document flows, product records, and compliance obligations  not a generic walkthrough. We demonstrate how semantic drift detection, blast-radius mapping, and the corrective action workflow combine to catch the compliance failures that manual review consistently misses.</p>
+
+          <p>
+            Our personalised demos show how SpecDriftGS would work with your
+            specific supplier document flows, product records, and compliance
+            obligations not a generic walkthrough.
+
+            We demonstrate how semantic drift detection, blast-radius mapping,
+            and corrective action workflows combine to catch the compliance
+            failures that manual review consistently misses.
+          </p>
+
+          <!-- WEBSITE -->
           <div class="contact-detail">
-            <div class="icon"><i class="fas fa-globe"></i></div>
+            <div class="icon">
+              <i class="fas fa-globe"></i>
+            </div>
+
             <div class="text">
               <strong>Website</strong>
               <span>specdriftgs.co.uk</span>
             </div>
           </div>
+
+          <!-- EMAIL -->
           <div class="contact-detail">
-            <div class="icon"><i class="fas fa-envelope"></i></div>
+            <div class="icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+
             <div class="text">
               <strong>Email Us</strong>
               <span>shwetathapliyal1@gmail.com</span>
             </div>
           </div>
+
+          <!-- PHONE -->
           <div class="contact-detail">
-            <div class="icon"><i class="fas fa-phone"></i></div>
+            <div class="icon">
+              <i class="fas fa-phone"></i>
+            </div>
+
             <div class="text">
               <strong>Phone</strong>
               <span>+44 7721994265 · Shweta Thapliyal</span>
             </div>
           </div>
+
+          <!-- LOCATION -->
           <div class="contact-detail">
-            <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+
             <div class="text">
               <strong>UK Headquarters</strong>
               <span>London, United Kingdom</span>
             </div>
           </div>
+
+          <!-- RESPONSE -->
           <div class="contact-detail">
-            <div class="icon"><i class="fas fa-clock"></i></div>
+            <div class="icon">
+              <i class="fas fa-clock"></i>
+            </div>
+
             <div class="text">
               <strong>Response Time</strong>
               <span>Within 24 hours · Mon–Fri 9am–6pm GMT</span>
             </div>
           </div>
+
+          <!-- PRIVACY -->
           <div class="contact-detail">
-            <div class="icon"><i class="fas fa-shield-alt"></i></div>
+            <div class="icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+
             <div class="text">
               <strong>Data Privacy</strong>
               <span>UK GDPR Compliant · ICO Registered</span>
             </div>
           </div>
+
         </div>
+
       </div>
+
     </div>
   </section>
-</div><!-- end page contact -->
 
+</div>
+<!-- end page contact -->
 
 <!-- ═══════════════════════════════════════════
      FOOTER
